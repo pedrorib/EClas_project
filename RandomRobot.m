@@ -54,6 +54,17 @@ hold on
 %end
 
 % initialize point
+
+ 
+tran = [];
+for s_x = 2:19 % Calculates transition matrix (tran)
+    for s_y = 2:19
+        temp = Transition(map,s_x,s_y);
+        temp = temp(2:end-1,2:end-1);
+        tran = [tran; reshape(temp.',1,[]);];
+    end
+end
+    
 s_x = round((rand()+rand())*10);         %create the starting point
 s_y = round((rand()+rand())*10);
 
