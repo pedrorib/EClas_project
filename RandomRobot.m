@@ -3,7 +3,7 @@ close all;
 
 
 xmap=20; %length of map
-ymap=20; %widtth of map
+ymap=20; %width of map
   
 % Create an occupancy grid map and set obstacle locations.
 map = robotics.BinaryOccupancyGrid(xmap,ymap,1);
@@ -90,6 +90,8 @@ h.ColorbarVisible = 'off';
 h.FontSize = 8;
 drawnow;
 
+sensor = zeros(9,1);
+
   
 while true    
   if (i > 10)
@@ -128,11 +130,24 @@ while true
       grid(ax1,'on');
       
       A = Transition(map,s_x,s_y);
-      h = heatmap(f2,xlab, ylab, flipud(A));
-      h.FontSize = 8;
-      h.CellLabelFormat = '%.2f';
-      h.ColorbarVisible = 'off';  
+%       h = heatmap(f2,xlab, ylab, flipud(A));
+%       h.FontSize = 8;
+%       h.CellLabelFormat = '%.2f';
+%       h.ColorbarVisible = 'off';  
       
+
+      A = A(2:end-1,2:end-1);
+      A = reshape(A.',1,[]);
+      for i = -1:1
+          for j = -1:1
+              if (getOccupancy(map,[x+i y+j]) == 0)
+                  if (i == j && j == 0)
+                      continue;
+                  end
+                  %calcular matriz do sensor
+              end
+          end
+      end
       drawnow;                                    %# force refresh
       pause(1);
   end
