@@ -150,7 +150,11 @@ while true
       B = pplace(soutput, sensor, 18*18);
       alpha = B*tran'*alphap;
       malpha = reshape(alpha,[18,18]);
-      heatmap(f2,2:19,19:-1:2, flipud(malpha'));
+      malpha = malpha/sum(malpha(:));
+      h2=heatmap(f2,2:19,19:-1:2, flipud(malpha'));
+      h2.CellLabelFormat = '%0.2f';
+      h2.Colormap = parula;
+      h2.ColorbarVisible = 'off';
 
       drawnow;                                    %# force refresh
       pause(1);
