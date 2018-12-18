@@ -8,7 +8,50 @@ ymap=20; %width of map
 % Create an occupancy grid map and set obstacle locations.
 map = robotics.BinaryOccupancyGrid(xmap,ymap,1);
 %xy = [10 10; 11 11; 10 11];    %obstacles
-xy = [2 11;3 11;4 11;5 11;6 11;7 11;8 11;11 2;11 3;11 4;11 5;11 6;11 7;11 8;13 11;14 11;15 11;16 11;17 11;18 11;19 11;11 13;11 14;11 15;11 16;11 17;11 18;11 19];
+xy = [13	2
+13	3
+13	4
+13	5
+13	6
+13	7
+13	8
+13	12
+13	13
+13	14
+13	15
+13	16
+13	17
+13	18
+13	19
+2	13
+6	13
+7	13
+8	13
+12	13
+13	13
+14	13
+19	13
+7	2
+7	6
+7	7
+7	8
+7	12
+7	13
+7	14
+7	19
+2	7
+6	7
+7	7
+8	7
+9	7
+10	7
+11	7
+12	7
+13	7
+14	7
+19	7
+];
+
 right = [];
 down = [];
 up = [];
@@ -76,7 +119,7 @@ while getOccupancy(map,[s_x s_y]) == 1   %check if the point is an obstacle
     s_y = round((rand()+rand())*10);
 end
 
-% s_x = 10;
+% s_x = 9;
 % s_y = 9;
 
 %create the robot
@@ -100,9 +143,13 @@ sensor = zeros(9,1);
 
 %INITIALIZATION
 pi0 = ones(18,18);
-%pi0 = pi0;
 pi0 = reshape(pi0.',[],1);
 pi0 = pi0/sum(pi0);
+
+% pi0 = zeros(18,18);
+% pi0(8,8) = 1;
+% pi0 = reshape(pi0.',[],1);
+
 [A,~] = Transition(map,s_x,s_y);
 sensor = ceil(A(s_y-1:s_y+1,s_x-1:s_x+1));
 A = A(2:end-1,2:end-1);
@@ -157,7 +204,7 @@ while true
       h2.ColorbarVisible = 'off';
 
       drawnow;                                    %# force refresh
-      pause(1);
+      pause(0.1);
   end
   alphap = alpha;
 
