@@ -158,12 +158,16 @@ sensor = reshape(sensor.',1,[]);
 B = pplace(soutput, sensor, 18*18);
 alphap = B*pi0;
 alpha = [];
-
+s_x_prev = NaN(10000,1);
+s_y_prev = NaN(10000,1);
+i=1;
 while true    
   if (i > 10000)
      break;
   end
   
+  s_x_prev(i) = s_x;
+  s_y_prev(i) = s_y;
   [s_x,s_y] = walker(map,xmap,ymap,s_x,s_y);
   
   if (s_x <= 1)
@@ -180,7 +184,9 @@ while true
       show(map,'Parent',ax1);
       hold(ax1,'on');
       plot(ax1,s_x-0.5, s_y-0.5,'o', 'MarkerEdgeColor','b', ...
-          'MarkerFaceColor','b','MarkerSize', 10)
+          'MarkerFaceColor','b','MarkerSize', 10);
+      line(ax1,s_x_prev-0.5,s_y_prev-0.5);
+      line(ax1,[s_x_prev(i-1)-0.5;s_x-0.5],[s_y_prev(i-1)-0.5;s_y-0.5],'Color','r');
       set(ax1,'XTick',0:1:20,'YTick',0:1:20);
       grid(ax1,'on');
       
@@ -209,5 +215,3 @@ while true
   alphap = alpha;
 
 end
-
-%getOccupancy(map,[1 1])
